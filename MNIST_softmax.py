@@ -4,6 +4,7 @@ import os
 
 # 下载图片
 from tensorflow.examples.tutorials.mnist import input_data
+
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 # x代表一个占位符，代表等待识别的图片
@@ -40,7 +41,7 @@ for _ in range(1000):
     # 在mnist中读取100个训练数据
     # batch_xs是形状为（100， 784）的图像数据，batch_ys是（100， 10）的实际标签
     # batch_xs和batch_ys分别对应着两个占位符x和y_
-    batch_xs, batch_ys = mnist.train.next_batch(50)
+    batch_xs, batch_ys = mnist.train.next_batch(100)
 
     # 在session中运行train_step，运行时要传入占位符的值
     sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
@@ -54,3 +55,4 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 # 在Session中运行Tensor可以得到Tensor的值
 # 计算最终的准确率
 print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))
+print(sess.run(accuracy, feed_dict={x: mnist.validation.images, y_: mnist.validation.labels}))
